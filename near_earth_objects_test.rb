@@ -13,4 +13,8 @@ class NearEarthObjectsTest < Minitest::Test
 
     assert_equal '(2019 GD4)', results[0][:name]  
   end
+
+  def test_it_can_get_largest_asteroid
+    NearEarthObjects.largest_asteroid_diameter('2019-03-30')
+  end
 end

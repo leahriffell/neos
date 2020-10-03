@@ -3,10 +3,6 @@ require 'figaro'
 require 'pry'
 require_relative 'near_earth_objects_service'
 
-# # Load ENV vars via Figaro
-# Figaro.application = Figaro::Application.new(environment: 'production', path: File.expand_path('../config/application.yml', __FILE__))
-# Figaro.load
-
 class NearEarthObjects
   def self.service 
     NearEarthObjectsService.new
@@ -16,10 +12,24 @@ class NearEarthObjects
     service.neos_for_date(date)
   end
 
-  def self.largest_astroid_diameter(date)
+  def self.largest_asteroid_diameter(date)
     service.neos_for_date(date).map do |asteroid|
-      astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
+      asteroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
     end.max { |a,b| a<=> b}
+  end
+
+  def self.total_number_of_asteroids(date)
+    service.neos_for_date(date).count
+  end
+
+  def self.formatted_asteroid_data(date)
+    service.neos_for_date(date).map do |astroid|
+      {
+        name: astroid[:name],
+        diameter: "#{astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i} ft",
+        miss_distance: "#{astroid[:close_approach_data][0][:miss_distance][:miles].to_i} miles"
+      }
+    end
   end
 
   # def self.find_neos_by_date(date)
