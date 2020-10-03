@@ -1,4 +1,5 @@
 require_relative 'near_earth_objects'
+require_relative 'table'
 
 puts "________________________________________________________________________________________________________________________________"
 puts "Welcome to NEO. Here you will find information about how many meteors, asteroids, comets pass by the earth every day. \nEnter a date below to get a list of the objects that have passed by the earth on that day."
@@ -11,7 +12,7 @@ asteroid_list = NearEarthObjects.formatted_asteroid_data(date)
 total_number_of_asteroids = NearEarthObjects.total_number_of_asteroids(date)
 largest_asteroid = NearEarthObjects.largest_asteroid_diameter(date)
 
-column_labels = { name: "Name", diameter: "Diameter", miss_distance: "Missed The Earth By:" }
+column_labels = Table.column_labels
 column_data = column_labels.each_with_object({}) do |(col, label), hash|
   hash[col] = {
     label: label,
